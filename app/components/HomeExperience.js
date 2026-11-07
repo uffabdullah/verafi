@@ -467,8 +467,12 @@ if (!result.verified) throw new Error("Invalid proof");`;
           <h2>Two lines in.<br />One guarantee out.</h2>
         </div>
         <div className="code-card">
-          <div className="code-head"><span className="window-dots"><i /><i /><i /></span><span>game.ts</span></div>
-          <button className="copy-code-button" onClick={copySdkCode} aria-label="Copy SDK example">{copied ? "Copied" : "Copy"}</button>
+          <div className="code-head">
+            <div className="code-file"><span className="window-dots"><i /><i /><i /></span><span>game.ts</span></div>
+            <button className={`copy-code-button ${copied ? "copied" : ""}`} type="button" onClick={copySdkCode} aria-label="Copy SDK example">
+              <span aria-hidden="true">{copied ? "✓" : "⧉"}</span>{copied ? "Copied" : "Copy code"}
+            </button>
+          </div>
           <pre><code><span>import</span> {"{ FairRound }"} <span>from</span> "@verafi/sdk";{"\n\n"}
 {"const round = await FairRound.create({"}{"\n"}
 {"  playerSeed, game: \"coin-flip\", range: 2,"}{"\n"}
