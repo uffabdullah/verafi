@@ -29,6 +29,9 @@ html[data-theme="dark"] {
   --line: rgba(244, 243, 248, .14);
   --surface: #17171f;
   --surface-raised: #20212b;
+  --page: #111117;
+  --hero-bg: linear-gradient(145deg, #0a0910 0%, #11101a 58%, #171429 100%);
+  --hero-text: #f4f3f8;
 }
 
 html[data-theme="dark"] body {
@@ -44,6 +47,9 @@ html[data-theme="light"] {
   --line: rgba(20, 24, 43, .14);
   --surface: #ffffff;
   --surface-raised: #efede7;
+  --page: #f7f1e8;
+  --hero-bg: linear-gradient(145deg, #fffaf4 0%, #f5efe6 58%, #ece9ff 100%);
+  --hero-text: #14182b;
 }
 
 * { box-sizing: border-box; }
@@ -56,6 +62,11 @@ body {
   overflow-x: hidden;
   font-size: 16px;
   transition: background-color .35s ease, color .35s ease;
+}
+main { background: var(--page); transition: background-color .35s ease, color .35s ease; }
+.hero, .nav-shell, .section, footer, .code-card, .verification-card, .game-panel,
+.protocol-stage, .orbital-card, .search-box, .chart-card, .stat-card, .round-feed {
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease;
 }
 .section { background: var(--section-bg, transparent); transition: background-color .35s ease, color .35s ease; }
 body p, body small, body input, body code, body pre { font-family: "Montserrat", Arial, sans-serif; }
@@ -96,10 +107,8 @@ button { cursor: pointer; }
   min-height: 760px;
   position: relative;
   overflow: hidden;
-  color: white;
-  background:
-    radial-gradient(circle at 67% 50%, rgba(112,91,255,.18), transparent 20%),
-    linear-gradient(145deg, #0a0910 0%, #11101a 58%, #171429 100%);
+  color: var(--hero-text);
+  background: var(--hero-bg);
   padding: 180px max(6vw, calc((100vw - 1180px)/2)) 85px;
 }
 .hero-grid { position:absolute; inset:0; opacity:.12; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px); background-size:64px 64px; mask-image: linear-gradient(to bottom, black, transparent 78%); }
@@ -306,6 +315,34 @@ html[data-theme="light"] .protocol,
 html[data-theme="light"] .verify,
 html[data-theme="light"] .sdk {
   background: var(--paper);
+  color: var(--ink);
+}
+
+html[data-theme="light"] .hero {
+  color: var(--ink);
+}
+html[data-theme="light"] .hero-kicker,
+html[data-theme="light"] .hero-lede,
+html[data-theme="light"] .orbital-label,
+html[data-theme="light"] .verified-row span,
+html[data-theme="light"] .hero-proof {
+  color: var(--muted);
+}
+html[data-theme="light"] .text-button {
+  color: var(--ink);
+}
+html[data-theme="light"] .orbital-card {
+  border-color: rgba(49,92,255,.16);
+  background: rgba(255,255,255,.78);
+  box-shadow: 0 30px 100px rgba(49,92,255,.12);
+}
+html[data-theme="light"] .verified-row strong {
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .protocol,
+html[data-theme="dark"] .verify,
+html[data-theme="dark"] .sdk {
   color: var(--ink);
 }
 
