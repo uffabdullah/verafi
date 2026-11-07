@@ -41,6 +41,8 @@ export default function HomeExperience() {
   const [counter, setCounter] = useState(4821);
   const [theme, setTheme] = useState("dark");
   const [copied, setCopied] = useState(false);
+  const [packageCopied, setPackageCopied] = useState(false);
+  const [verificationQuery, setVerificationQuery] = useState("");
 
   const sdkCode = `import { FairRound } from "@verafi/sdk";
 
@@ -220,6 +222,24 @@ if (!result.verified) throw new Error("Invalid proof");`;
     }
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1600);
+  };
+
+  const copyInstallCommand = async () => {
+    const command = "npm install @verafi/sdk";
+    try {
+      await navigator.clipboard.writeText(command);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = command;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+    }
+    setPackageCopied(true);
+    window.setTimeout(() => setPackageCopied(false), 1600);
   };
 
   return (
@@ -417,8 +437,15 @@ if (!result.verified) throw new Error("Invalid proof");`;
             No platform API is required for the final answer.
           </p>
           <div className="search-box">
-            <input aria-label="Transaction signature" placeholder="Paste transaction signature or round PDA" />
-            <button aria-label="Verify round">Verify <span>→</span></button>
+            <span className="search-icon" aria-hidden="true">⌕</span>
+            <input
+              aria-label="Transaction signature"
+              placeholder="Paste transaction signature or round PDA"
+              value={verificationQuery}
+              onChange={(event) => setVerificationQuery(event.target.value)}
+            />
+            {verificationQuery && <button className="search-clear" type="button" onClick={() => setVerificationQuery("")} aria-label="Clear signature">×</button>}
+            <button className="verify-submit" aria-label="Verify round">Verify <span>→</span></button>
           </div>
           <small>Example: 5K7Q…892m</small>
         </div>
@@ -498,7 +525,11 @@ if (!result.verified) throw new Error("Invalid proof");`;
 {"});"}{"\n\n"}
 {"const result = await round.reveal();"}{"\n"}
 {"if (!result.verified) throw new Error(\"Invalid proof\");"}</code></pre>
-          <button className="install-button">npm install @verafi/sdk <span>⌘</span></button>
+          <button className={`install-button ${packageCopied ? "copied" : ""}`} type="button" onClick={copyInstallCommand} aria-label="Copy npm install command">
+            <span className="install-prompt">$</span>
+            <code>npm install @verafi/sdk</code>
+            <span className="install-copy">{packageCopied ? "Copied ✓" : "Copy ⧉"}</span>
+          </button>
         </div>
       </section>
 
