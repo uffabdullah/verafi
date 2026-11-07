@@ -39,6 +39,24 @@ export default function HomeExperience() {
   const [roundState, setRoundState] = useState("ready");
   const [result, setResult] = useState(null);
   const [counter, setCounter] = useState(4821);
+  const [theme, setTheme] = useState("dark");
+  const [copied, setCopied] = useState(false);
+
+  const sdkCode = `import { FairRound } from "@verafi/sdk";
+
+const round = await FairRound.create({
+  playerSeed, game: "coin-flip", range: 2,
+});
+
+const result = await round.reveal();
+if (!result.verified) throw new Error("Invalid proof");`;
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("verafi-theme");
+    const nextTheme = savedTheme === "light" ? "light" : "dark";
+    setTheme(nextTheme);
+    document.documentElement.dataset.theme = nextTheme;
+  }, []);
 
   useEffect(() => {
     const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
@@ -94,7 +112,7 @@ export default function HomeExperience() {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(310, 220);
 
-      const geometry = new THREE.TorusKnotGeometry(1.2, 0.28, 160, 12, 2, 3);
+      const geometry = new THREE.TorusKnotGeometry(1.15, 0.22, 160, 12, 2, 3);
       const material = new THREE.MeshStandardMaterial({
         color: 0xff775f,
         roughness: 0.22,
@@ -104,6 +122,14 @@ export default function HomeExperience() {
       });
       const knot = new THREE.Mesh(geometry, material);
       scene.add(knot);
+      const nodeGeometry = new THREE.SphereGeometry(0.1, 24, 24);
+      const commitNode = new THREE.Mesh(nodeGeometry, new THREE.MeshStandardMaterial({ color: 0x9bf0c2, emissive: 0x315cff, emissiveIntensity: 0.35 }));
+      const revealNode = new THREE.Mesh(nodeGeometry.clone(), new THREE.MeshStandardMaterial({ color: 0xff775f, emissive: 0xff775f, emissiveIntensity: 0.45 }));
+      const proofNode = new THREE.Mesh(nodeGeometry.clone(), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x9bf0c2, emissiveIntensity: 0.45 }));
+      commitNode.position.set(-1.8, 0.9, 0);
+      revealNode.position.set(1.75, 0.6, 0);
+      proofNode.position.set(0.25, -1.65, 0.2);
+      scene.add(commitNode, revealNode, proofNode);
       scene.add(new THREE.AmbientLight(0xffffff, 1.3));
       const light = new THREE.PointLight(0x9bf0c2, 18, 20);
       light.position.set(3, 3, 5);
@@ -112,6 +138,9 @@ export default function HomeExperience() {
       const animateThree = () => {
         knot.rotation.x += 0.004;
         knot.rotation.y += 0.006;
+        commitNode.position.y = 0.9 + Math.sin(Date.now() * 0.001) * 0.08;
+        revealNode.position.y = 0.6 + Math.cos(Date.now() * 0.001) * 0.08;
+        proofNode.scale.setScalar(1 + Math.sin(Date.now() * 0.002) * 0.12);
         renderer.render(scene, camera);
         animationFrame = requestAnimationFrame(animateThree);
       };
@@ -150,6 +179,30 @@ export default function HomeExperience() {
 
   const scrollTo = (id) => document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
 
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    document.documentElement.dataset.theme = nextTheme;
+    window.localStorage.setItem("verafi-theme", nextTheme);
+  };
+
+  const copySdkCode = async () => {
+    try {
+      await navigator.clipboard.writeText(sdkCode);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = sdkCode;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+    }
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1600);
+  };
+
   return (
     <main ref={page}>
       <nav className="nav-shell">
@@ -167,6 +220,10 @@ export default function HomeExperience() {
           <span className="network-dot" />
           Solana Devnet
           <span>↗</span>
+        </button>
+        <button className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`} title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}>
+          <span className={theme === "dark" ? "active" : ""}>☾</span>
+          <span className={theme === "light" ? "active" : ""}>☀</span>
         </button>
       </nav>
       <section className="hero" id="top">
@@ -411,13 +468,14 @@ export default function HomeExperience() {
         </div>
         <div className="code-card">
           <div className="code-head"><span className="window-dots"><i /><i /><i /></span><span>game.ts</span></div>
+          <button className="copy-code-button" onClick={copySdkCode} aria-label="Copy SDK example">{copied ? "Copied" : "Copy"}</button>
           <pre><code><span>import</span> {"{ FairRound }"} <span>from</span> "@verafi/sdk";{"\n\n"}
 {"const round = await FairRound.create({"}{"\n"}
 {"  playerSeed, game: \"coin-flip\", range: 2,"}{"\n"}
 {"});"}{"\n\n"}
 {"const result = await round.reveal();"}{"\n"}
 {"if (!result.verified) throw new Error(\"Invalid proof\");"}</code></pre>
-          <button>npm install @verafi/sdk <span>⌘</span></button>
+          <button className="install-button">npm install @verafi/sdk <span>⌘</span></button>
         </div>
       </section>
 
