@@ -336,6 +336,25 @@ html[data-theme="light"] .orbital-card {
   background: rgba(255,255,255,.78);
   box-shadow: 0 30px 100px rgba(49,92,255,.12);
 }
+html[data-theme="light"] .orbital-card .orbit-ring {
+  border-color: rgba(49,92,255,.18);
+}
+html[data-theme="light"] .orbit-node {
+  border-color: rgba(49,92,255,.22);
+  background: #eef0ff;
+  color: #315cff;
+  box-shadow: 0 8px 20px rgba(49,92,255,.12);
+}
+html[data-theme="light"] .node-one,
+html[data-theme="light"] .node-two,
+html[data-theme="light"] .node-three {
+  color: #315cff;
+}
+html[data-theme="light"] .node-three {
+  background: var(--acid);
+  color: #111;
+  border-color: transparent;
+}
 html[data-theme="light"] .verified-row strong {
   color: var(--ink);
 }
@@ -344,6 +363,41 @@ html[data-theme="dark"] .protocol,
 html[data-theme="dark"] .verify,
 html[data-theme="dark"] .sdk {
   color: var(--ink);
+}
+
+html[data-theme="light"] .audit {
+  background: #ece8ff;
+  color: var(--ink);
+  border-top: 1px solid rgba(49,92,255,.10);
+  border-bottom: 1px solid rgba(49,92,255,.10);
+}
+html[data-theme="light"] .audit-heading p,
+html[data-theme="light"] .section-number.light {
+  color: var(--muted);
+}
+html[data-theme="light"] .chart-card,
+html[data-theme="light"] .stat-card,
+html[data-theme="light"] .round-feed {
+  border-color: rgba(49,92,255,.14);
+  background: rgba(255,255,255,.92);
+  color: var(--ink);
+  box-shadow: 0 18px 50px rgba(49,92,255,.08);
+}
+html[data-theme="light"] .chart-bars {
+  border-bottom-color: rgba(49,92,255,.16);
+}
+html[data-theme="light"] .chart-axis,
+html[data-theme="light"] .stat-card > span,
+html[data-theme="light"] .stat-card div small,
+html[data-theme="light"] .feed-row span {
+  color: var(--muted);
+}
+html[data-theme="light"] .feed-row strong {
+  color: var(--ink);
+}
+html[data-theme="light"] .feed-row,
+html[data-theme="light"] .stat-card div {
+  border-top-color: rgba(49,92,255,.12);
 }
 
 @keyframes heartPulse {
