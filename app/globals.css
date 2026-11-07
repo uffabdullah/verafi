@@ -241,6 +241,8 @@ button { cursor: pointer; }
 .code-card pre { margin:0; min-height:250px; padding:32px; font-family:"Montserrat",Arial,sans-serif !important; font-size:13px; line-height:1.9; white-space:pre-wrap; overflow-wrap:anywhere; overflow:auto; user-select:text; -webkit-user-select:text; cursor:text; }.code-card pre span { color:#9c8cff; }
 .copy-code-button { height:36px; min-width:104px; border:1px solid rgba(255,255,255,.16); border-radius:8px; background:#292832; color:white; display:flex; align-items:center; justify-content:center; gap:8px; font-family:"Montserrat",Arial,sans-serif; font-size:12px; font-weight:600; transition:.2s ease; }.copy-code-button:hover { border-color:var(--acid); color:var(--acid); }.copy-code-button.copied { border-color:#9bf0c2; color:#9bf0c2; }
 .code-card .install-button { margin:0 20px 20px; height:44px; width:calc(100% - 40px); border:0; border-radius:8px; background:#292832; color:white; text-align:left; padding:0 15px; display:flex; justify-content:space-between; }
+
+.code-card { opacity: 1 !important; transform: none !important; visibility: visible !important; }
 footer {
   min-height:220px;
   padding:42px max(6vw,calc((100vw - 1180px)/2));
@@ -315,6 +317,11 @@ html[data-theme="light"] .protocol,
 html[data-theme="light"] .verify,
 html[data-theme="light"] .sdk {
   background: var(--paper);
+  color: var(--ink);
+}
+
+html[data-theme="light"] .sdk .section-number,
+html[data-theme="light"] .sdk h2 {
   color: var(--ink);
 }
 
@@ -412,6 +419,7 @@ html[data-theme="light"] .stat-card div {
   .hero-proof { bottom:20px; }
   .section-heading, .audit-heading { grid-template-columns:1fr; gap:30px; }.protocol-layout { grid-template-columns:1fr; }.step-list { border-right:0; }.protocol-visual { min-height:370px; }
   .verify, .sdk { grid-template-columns:1fr; }.verification-card { width:min(440px,100%); }
+  .sdk { gap:40px; }.sdk h2 { font-size:clamp(46px, 9vw, 64px); }.code-card { width:100%; }
 }
 @media (max-width: 700px) {
   .nav-shell { width:calc(100% - 24px); top:12px; }.network-pill { font-size:11px !important; }

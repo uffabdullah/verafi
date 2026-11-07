@@ -95,7 +95,7 @@ if (!result.verified) throw new Error("Invalid proof");`;
           scrollTrigger: { trigger: element, start: "top 92%", once: true },
         });
       });
-      gsap.utils.toArray(".protocol-layout, .game-panel, .verify-copy, .verification-card, .audit-grid, .code-card, footer").forEach((element) => {
+      gsap.utils.toArray(".protocol-layout, .game-panel, .verify-copy, .verification-card, .audit-grid, footer").forEach((element) => {
         gsap.from(element, {
           y: 42,
           opacity: 0,
